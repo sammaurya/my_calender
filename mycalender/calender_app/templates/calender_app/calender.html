@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>{% autoescape off %}{{ cal }}{% endautoescape %}</p>
+    {% include "calender_app/events.html" %}
+    <script>
+        function addRowHandlers() {
+            var table = document.getElementsByClassName("month")[0];
+            var rows = table.getElementsByTagName("tr");
+            for (i = 2; i < rows.length; i++) {
+                var currentRow = table.rows[i];
+                var columns = currentRow.getElementsByTagName("td");
+                console.log(columns);
+                for(j = 0; j < columns.length; j++){
+                    var createClickHandler = function(row,column) {
+                        return function() {
+                            var cell = row.getElementsByTagName("td")[column];
+                            var id = cell.innerHTML;
+                            alert("id:" + id);
+                        };
+                    };
+                    currentRow.onclick = createClickHandler(currentRow);
+                }
+            }
+        }   
+        addRowHandlers();    
+    </script>
+{% endblock content %}
